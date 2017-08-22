@@ -8,10 +8,10 @@ class GCMClient {
 
     pushToDevice(outlookNotificationPayload, callback) {
 
-        var sendGCMNotification = function (sender, deviceSpecificToken) {
+        var sendGCMNotification = function (sender, payload,deviceSpecificToken) {
             // Prepare a message to be sent 
             var message = new gcm.Message({
-                data: { key1: 'msg1' }
+                data: { key1: payload }
             });
 
             // Specify which registration IDs to deliver the message to 
@@ -37,7 +37,7 @@ class GCMClient {
                 var clientState = value[notification].ClientState;
                 if (clientState != null) {
                     sent.push(clientState);
-                    sendGCMNotification(this.sender, clientState);
+                    sendGCMNotification(this.sender, JSON.stringify(value[notification]),clientState);
                 }
 
             }
