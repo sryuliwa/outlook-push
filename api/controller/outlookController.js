@@ -5,8 +5,7 @@ const SERVER_API_KEYS = "AIzaSyA6kQAvIT5-_zONWamMfbdpNxc_17yMHNs";
 var gcmClient = new GCMClient(SERVER_API_KEYS);
 
 var sendPushNotification = function (req, res) {
-    var body = req.body;
-    gcmClient.pushToDevice(body, function (error, sent) {
+    gcmClient.pushToDevice(req, function (error, sent) {
         if (sent == null) {
             console.log("failed to send notification: " + error);
         }

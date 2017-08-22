@@ -6,7 +6,7 @@ class GCMClient {
         this.sender = new gcm.Sender(apiKey);
     }
 
-    pushToDevice(outlookNotificationPayload, callback) {
+    pushToDevice(req, callback) {
 
         var sendGCMNotification = function (sender, payload,deviceSpecificToken) {
             // Prepare a message to be sent 
@@ -28,13 +28,13 @@ class GCMClient {
 
         var sent = [];
         try {
-            var value = outlookNotificationPayload.value;
+            var clientState=req.headers['clientstate'];
+            var value = req.body.value;
             if (!Array.isArray(value)) {
                 callback("failed. no notification", null);
                 return;
             }
             for (var notification in value) {
-                var clientState = value[notification].ClientState;
                 if (clientState != null) {
                     sent.push(clientState);
                     sendGCMNotification(this.sender, JSON.stringify(value[notification]),clientState);
